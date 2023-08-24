@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class NewUmkmRequest {
 
+    @NotBlank(message = "debtorId is required")
+    private String debtorId;
     @NotBlank(message = "umkm name is Required")
     private String umkmName;
     @NotBlank(message = "np siup is Required")

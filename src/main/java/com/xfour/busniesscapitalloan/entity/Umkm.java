@@ -21,7 +21,7 @@ public class Umkm extends BaseEntity {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "no_siup")
+    @Column(name = "no_siup", unique = true)
     private String noSiup;
     @Column(name = "address")
     private String address;

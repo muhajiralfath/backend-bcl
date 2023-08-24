@@ -14,7 +14,7 @@ public class UmkmResponse {
     private String noSiup;
     private String umkmName;
     private String address;
-    private String capital;
+    private Long capital;
     private String umkmType;
     private String bankAccount;
 }

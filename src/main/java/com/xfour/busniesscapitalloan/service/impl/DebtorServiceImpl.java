@@ -82,7 +82,7 @@ public class DebtorServiceImpl implements DebtorService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         DebtorResponse debtorResponse = getByAuthentication(authentication);
         if (!debtorResponse.getDebtorId().equals(request.getDebtorId())){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "anda tidak memiliki akses untuk mengakses resource ini");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "do not access to this resource");
         }
         Debtor debtor = findByIdOrThrownNotFound(debtorResponse.getDebtorId());
         debtor.setNik(request.getNik());
@@ -102,7 +102,7 @@ public class DebtorServiceImpl implements DebtorService {
 
     private Debtor findByIdOrThrownNotFound(String id){
         return debtorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "customer tidak ditemukan"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "debtor not found"));
     }
 
     private static DebtorResponse toDebtorResponse(Debtor debtor){
