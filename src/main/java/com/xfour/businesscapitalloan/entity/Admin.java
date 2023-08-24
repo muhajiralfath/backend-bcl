@@ -3,10 +3,7 @@ package com.xfour.businesscapitalloan.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -16,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "m_admin")
 public class Admin extends BaseEntity{
+    @Column(name = "name")
     private String name;
 
     @OneToOne

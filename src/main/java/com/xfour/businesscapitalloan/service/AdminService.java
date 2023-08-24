@@ -4,4 +4,5 @@ import com.xfour.businesscapitalloan.entity.Admin;
 
 public interface AdminService {
     Admin create(Admin admin);
+    Boolean isAdminEmpty();
 }

@@ -20,4 +20,9 @@ public class AdminServiceImpl implements AdminService {
         log.info("end create admin");
         return save;
     }
+
+    @Override
+    public Boolean isAdminEmpty() {
+        return adminRepository.count() == 0;
+    }
 }
