@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface UmkmRepository extends JpaRepository<Umkm, String>, JpaSpecificationExecutor<Umkm> {
-
+    Optional<Umkm> findFirstByDebtor_Id(String sellerId);
+    Optional<Umkm> findFirstBySDebtor_UserCredential_Id(String userId);
 }
