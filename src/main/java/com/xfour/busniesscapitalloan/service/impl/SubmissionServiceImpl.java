@@ -6,9 +6,8 @@ import com.xfour.busniesscapitalloan.repository.SubmissionRepository;
 import com.xfour.busniesscapitalloan.service.SubmissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public List<SubmissionResponse> getAll() {
+    public Page<SubmissionResponse> getAll() {
         return null;
     }
 
