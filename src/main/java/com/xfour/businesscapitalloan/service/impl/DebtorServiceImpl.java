@@ -119,8 +119,6 @@ public class DebtorServiceImpl implements DebtorService {
                 .address(debtor.getAddress())
                 .job(debtor.getJob())
                 .email(debtor.getUserCredential().getEmail())
-                .umkmId(debtor.getUmkm().getId())
-                .umkmName(debtor.getUmkm().getName())
                 .build();
     }
 }

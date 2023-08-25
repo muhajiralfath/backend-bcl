@@ -1,5 +1,6 @@
 package com.xfour.businesscapitalloan.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,10 @@ public class BaseEntity {
     protected String id;
 
     @CreatedDate
+//    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     protected LocalDateTime createdAt;
 
     @LastModifiedDate
+//    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     protected LocalDateTime updatedAt;
 }
