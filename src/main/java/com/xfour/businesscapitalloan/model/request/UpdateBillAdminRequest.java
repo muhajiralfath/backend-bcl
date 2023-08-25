@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateSubmissionRequest {
+public class UpdateBillAdminRequest {
 
     @NotBlank(message = "id is required")
     private String id;
 
-    @NotNull(message = "approval is required")
-    private Boolean isApprove;
+    @NotNull(message = "isVerify is required")
+    private Boolean isVerify;
 }

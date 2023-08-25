@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +19,7 @@ public class BillResponse {
     private String debtorName;
     private Long debt;
     private Integer interest;
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
     private Boolean isPaid;
+    private Boolean isVerify;
 }

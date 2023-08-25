@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BillRequest {
+public class UpdateBillUmkmRequest {
 
     @NotBlank(message = "id is required")
     private String id;

@@ -15,5 +15,9 @@ public class ProvisionResponse {
 
     private String id;
     private String submissionId;
+    private String umkmName;
+    private String debtorName;
+    private String bankAccount;
+    private Long amount;
     private LocalDateTime time;
 }

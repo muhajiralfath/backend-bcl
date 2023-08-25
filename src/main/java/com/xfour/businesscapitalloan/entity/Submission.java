@@ -29,4 +29,7 @@ public class Submission extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "umkm_id")
     private Umkm umkm;
+
+    @OneToOne(mappedBy = "submission", fetch = FetchType.LAZY)
+    private Provision provision;
 }

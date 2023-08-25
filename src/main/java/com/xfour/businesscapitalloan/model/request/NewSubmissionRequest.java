@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -15,9 +16,9 @@ public class NewSubmissionRequest {
     @NotBlank(message = "umkmId is required")
     private String umkmId;
 
-    @NotBlank(message = "loanAmount is required")
+    @NotNull(message = "loanAmount is required")
     private Long loanAmount;
 
-    @NotBlank(message = "tenor is required")
+    @NotNull(message = "tenor is required")
     private Integer tenor;
 }
