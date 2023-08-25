@@ -14,19 +14,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "t_submission")
-public class Submission extends BaseEntity{
+@Table(name = "t_provision")
+public class Provision extends BaseEntity{
 
-    @Column(name = "tenor")
-    private Integer tenor;
-
-    @Column(name = "loan_amount")
-    private Long loanAmount;
-
-    @Column(name = "is_approve")
-    private Boolean isApprove;
-
-    @ManyToOne
-    @JoinColumn(name = "umkm_id")
-    private Umkm umkm;
+    @OneToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "submission_id")
+    private Submission submission;
 }

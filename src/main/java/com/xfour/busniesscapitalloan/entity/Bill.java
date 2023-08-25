@@ -14,17 +14,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "t_submission")
-public class Submission extends BaseEntity{
+@Table(name = "t_bill")
+public class Bill extends BaseEntity{
 
-    @Column(name = "tenor")
-    private Integer tenor;
+    @Column(name = "amount")
+    private Long amount;
 
-    @Column(name = "loan_amount")
-    private Long loanAmount;
+    @Column(name = "interest")
+    private Integer interest;
 
-    @Column(name = "is_approve")
-    private Boolean isApprove;
+    @Column(name = "is_paid")
+    private Boolean isPaid;
+
+    @ManyToOne
+    @JoinColumn(name = "provision_id")
+    private Provision provision;
 
     @ManyToOne
     @JoinColumn(name = "umkm_id")

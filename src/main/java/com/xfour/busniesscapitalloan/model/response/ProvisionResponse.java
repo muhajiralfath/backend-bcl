@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubmissionResponse {
+public class ProvisionResponse {
+
     private String id;
-    private String umkmId;
-    private LocalDateTime date;
-    private Long loanAmount;
-    private Integer tenor;
-    private Boolean isApprove;
+    private String submissionId;
+    private LocalDateTime time;
 }

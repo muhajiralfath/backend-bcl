@@ -1,6 +1,6 @@
 package com.xfour.busniesscapitalloan.service.impl;
 
-import com.xfour.busniesscapitalloan.model.request.SubmissionRequest;
+import com.xfour.busniesscapitalloan.model.request.NewSubmissionRequest;
 import com.xfour.busniesscapitalloan.model.response.SubmissionResponse;
 import com.xfour.busniesscapitalloan.repository.SubmissionRepository;
 import com.xfour.busniesscapitalloan.service.SubmissionService;
@@ -16,7 +16,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
 
     @Override
-    public SubmissionResponse create(SubmissionRequest request) {
+    public SubmissionResponse create(NewSubmissionRequest request) {
         return null;
     }
 
@@ -31,7 +31,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public SubmissionResponse update(SubmissionRequest request) {
+    public SubmissionResponse update(NewSubmissionRequest request) {
         return null;
     }
 }

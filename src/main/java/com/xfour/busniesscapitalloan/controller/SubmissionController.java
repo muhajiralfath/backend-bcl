@@ -1,6 +1,6 @@
 package com.xfour.busniesscapitalloan.controller;
 
-import com.xfour.busniesscapitalloan.model.request.SubmissionRequest;
+import com.xfour.busniesscapitalloan.model.request.NewSubmissionRequest;
 import com.xfour.busniesscapitalloan.model.response.CommonResponse;
 import com.xfour.busniesscapitalloan.model.response.SubmissionResponse;
 import com.xfour.busniesscapitalloan.service.SubmissionService;
@@ -26,7 +26,7 @@ public class SubmissionController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DEBTOR')")
     public ResponseEntity<?> create(
-            @RequestBody SubmissionRequest request
+            @RequestBody NewSubmissionRequest request
     ) {
         log.info("start create submission");
         SubmissionResponse submissionResponse = submissionService.create(request);
@@ -72,7 +72,7 @@ public class SubmissionController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(
-            @RequestBody SubmissionRequest request
+            @RequestBody NewSubmissionRequest request
     ) {
         log.info("start of update submission");
         SubmissionResponse submissionResponse = submissionService.update(request);

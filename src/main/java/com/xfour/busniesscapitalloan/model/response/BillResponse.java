@@ -11,11 +11,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubmissionResponse {
+public class BillResponse {
+
     private String id;
-    private String umkmId;
-    private LocalDateTime date;
-    private Long loanAmount;
-    private Integer tenor;
-    private Boolean isApprove;
+    private String provisionId;
+    private String umkmName;
+    private String debtorName;
+    private Long debt;
+    private Integer interest;
+    private LocalDateTime dueDate;
+    private Boolean isPaid;
 }
