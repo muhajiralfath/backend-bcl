@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.xfour</groupId>
-	<artifactId>busniess-capital-loan</artifactId>
+	<artifactId>business-capital-loan</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>busniess-capital-loan</name>
-	<description>Application for busniess capital loan</description>
+	<name>business-capital-loan</name>
+	<description>Application for business capital loan</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
