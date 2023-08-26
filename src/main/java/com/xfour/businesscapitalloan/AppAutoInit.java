@@ -18,9 +18,9 @@ public class AppAutoInit implements CommandLineRunner {
     private final AuthService authService;
     private final UserCredentialService userCredentialService;
 
-    @Value(value = "admin@email.com")
+    @Value(value = "${admin.email}")
     String email;
-    @Value(value = "passwordadmin")
+    @Value(value = "${admin.password}")
     String password;
 
     @Override
