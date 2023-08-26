@@ -95,7 +95,7 @@ public class BillController {
             path = "/verify",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DEBTOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateForAdmin(
             @RequestBody UpdateBillAdminRequest request
     ) {

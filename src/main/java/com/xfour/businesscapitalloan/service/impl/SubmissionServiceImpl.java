@@ -57,7 +57,6 @@ public class SubmissionServiceImpl implements SubmissionService {
         Submission submission = Submission.builder()
                 .tenor(request.getTenor())
                 .loanAmount(request.getLoanAmount())
-                .isApprove(false)
                 .umkm(umkm)
                 .build();
         submissionRepository.saveAndFlush(submission);
