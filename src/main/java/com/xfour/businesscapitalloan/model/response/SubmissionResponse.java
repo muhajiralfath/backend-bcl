@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 @Builder
 public class SubmissionResponse {
     private String id;
+    private String debtorId;
     private String umkmId;
+    private String umkmName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
     private Long loanAmount;

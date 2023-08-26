@@ -207,7 +207,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         return SubmissionResponse.builder()
                 .id(submission.getId())
+                .debtorId(submission.getUmkm().getDebtor().getId())
                 .umkmId(submission.getUmkm().getId())
+                .umkmName(submission.getUmkm().getName())
                 .date(submission.getCreatedAt())
                 .loanAmount(submission.getLoanAmount())
                 .tenor(submission.getTenor())
