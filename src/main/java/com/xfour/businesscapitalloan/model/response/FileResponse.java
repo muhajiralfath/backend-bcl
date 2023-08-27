@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
-    private String userId;
-    private List<String> roles;
-    private FileResponse profilePicture;
+public class FileResponse {
+    private String id;
+    private String filename;
+    private String url;
 }

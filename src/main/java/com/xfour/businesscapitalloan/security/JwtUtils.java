@@ -12,10 +12,10 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
 
-    @Value("${tokonyadia.jwt-secret}")
+    @Value("${business-capital-loan.jwt-secret}")
     private String jwtSecret;
 
-    @Value("${tokonyadia.jwt-expiration}")
+    @Value("${business-capital-loan.jwt-expiration}")
     private Long jwtExpiration;
 
     public String getUserIdByToken(String token) {

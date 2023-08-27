@@ -36,6 +36,9 @@ public class UserCredential extends BaseEntity {
             ))
     private Set<Role> roles;
 
+    @OneToOne(mappedBy = "user")
+    private ProfilePicture profilePicture;
+
     public Set<Role> getRoles() {
         return Collections.unmodifiableSet(roles);
     }
