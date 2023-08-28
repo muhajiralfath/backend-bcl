@@ -70,7 +70,7 @@ public class SubmissionController {
             @RequestParam(name = "minLoanAmount", required = false) Long minLoanAmount,
             @RequestParam(name = "maxLoanAmount", required = false) Long maxLoanAmount,
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(name = "size", required = false, defaultValue = "10") Integer size
+            @RequestParam(name = "size", required = false, defaultValue = "100") Integer size
     ) {
         log.info("start of getAllSubmission");
         SearchSubmissionRequest request = SearchSubmissionRequest.builder()
