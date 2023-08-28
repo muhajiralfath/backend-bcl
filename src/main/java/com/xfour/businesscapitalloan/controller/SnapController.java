@@ -26,7 +26,7 @@ public class SnapController {
         CommonResponse<Object> commonResponse = CommonResponse.builder()
                 .data(snapResponse)
                 .build();
-
+        log.info("end snap");
         return ResponseEntity.ok(commonResponse);
     }
 }
