@@ -5,8 +5,10 @@ import com.xfour.businesscapitalloan.entity.UserDetailsImpl;
 import com.xfour.businesscapitalloan.model.request.SearchDebtorRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateDebtorRequest;
 import com.xfour.businesscapitalloan.model.response.DebtorResponse;
+import com.xfour.businesscapitalloan.model.response.UmkmResponse;
 import com.xfour.businesscapitalloan.repository.DebtorRepository;
 import com.xfour.businesscapitalloan.service.DebtorService;
+import com.xfour.businesscapitalloan.service.UmkmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ import java.util.Objects;
 @Slf4j
 public class DebtorServiceImpl implements DebtorService {
     private final DebtorRepository debtorRepository;
+
     @Override
     public Debtor create(Debtor debtor) {
         log.info("start create debtor");
@@ -74,7 +77,7 @@ public class DebtorServiceImpl implements DebtorService {
         };
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<Debtor> debtorPage = debtorRepository.findAll(specification, pageable);
-        return debtorPage.map(DebtorServiceImpl::toDebtorResponse);
+        return debtorPage.map(this::toDebtorResponse);
     }
 
     @Override
@@ -105,7 +108,7 @@ public class DebtorServiceImpl implements DebtorService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "debtor not found"));
     }
 
-    private static DebtorResponse toDebtorResponse(Debtor debtor){
+    private DebtorResponse toDebtorResponse(Debtor debtor){
         return DebtorResponse.builder()
                 .debtorId(debtor.getId())
                 .nik(debtor.getNik())

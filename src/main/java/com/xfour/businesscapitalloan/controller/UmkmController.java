@@ -63,6 +63,23 @@ public class UmkmController {
                 .body(commonResponse);
     }
 
+    @Operation(summary = "Get Umkm By Debtor Id")
+    @GetMapping(
+            path = "/debtorId/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<?> getByDebtorId(@PathVariable String id) {
+        log.info("start getUmkmByDebtorId");
+        UmkmResponse umkmResponse = umkmService.getByDebtorId(id);
+        CommonResponse<Object> commonResponse = CommonResponse.builder()
+                .data(umkmResponse)
+                .build();
+        log.info("end getUmkmByDebtorId");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(commonResponse);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Get All Umkm")

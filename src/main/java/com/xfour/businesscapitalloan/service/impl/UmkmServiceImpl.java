@@ -27,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -101,24 +103,15 @@ public class UmkmServiceImpl implements UmkmService {
     @Transactional(readOnly = true)
     @Override
     public Page<UmkmResponse> getAll(SearchUmkmRequest request) {
-        log.info("start getAllUmkm");
-        Specification<Umkm> specification = (root, query, criteriaBuilder) -> {
-            if (Objects.nonNull(request.getKeyword())) {
-                Predicate predicate = criteriaBuilder.or(
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + request.getKeyword().toLowerCase() + "%"),
-                        criteriaBuilder.like(root.get("mobilePhone"), request.getKeyword().toLowerCase() + "%")
-                );
-                return query.where(predicate).getRestriction();
-            }
+        log.info("Start getAllUmkm");
 
-            return query.getRestriction();
-        };
-
+        Specification<Umkm> specification = buildSpecification(request);
 
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
         Page<Umkm> umkms = umkmRepository.findAll(specification, pageable);
         Page<UmkmResponse> umkmResponses = umkms.map(this::toUmkmResponse);
-        log.info("end getAllUmkm");
+
+        log.info("End getAllUmkm");
         return umkmResponses;
     }
 
@@ -166,5 +159,21 @@ public class UmkmServiceImpl implements UmkmService {
                 .umkmType(umkm.getUmkmType())
                 .bankAccount(umkm.getBankAccount())
                 .build();
+    }
+
+    private Specification<Umkm> buildSpecification(SearchUmkmRequest request) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (Objects.nonNull(request.getKeyword())) {
+                String keyword = "%" + request.getKeyword().toLowerCase() + "%";
+                Predicate namePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), keyword);
+                Predicate idPredicate = criteriaBuilder.like(root.get("id"), keyword);
+
+                predicates.add(criteriaBuilder.or(namePredicate, idPredicate));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 }
