@@ -1,5 +1,6 @@
 package com.xfour.businesscapitalloan.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,9 @@ public class Umkm extends BaseEntity {
     private String umkmType;
     @Column(name = "bank_account")
     private String bankAccount;
-    @OneToOne
+
+    @JsonBackReference
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "debtor_id", unique = true)
     private Debtor debtor;
 }
