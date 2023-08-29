@@ -30,10 +30,10 @@ public class BaseEntity {
     protected String id;
 
     @CreatedDate
-//    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime createdAt;
 
     @LastModifiedDate
-//    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime updatedAt;
 }
