@@ -8,6 +8,7 @@ import com.xfour.businesscapitalloan.model.request.NewSubmissionRequest;
 import com.xfour.businesscapitalloan.model.request.SearchSubmissionRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateSubmissionRequest;
 import com.xfour.businesscapitalloan.model.response.SubmissionResponse;
+import com.xfour.businesscapitalloan.model.response.UmkmResponse;
 import com.xfour.businesscapitalloan.repository.SubmissionRepository;
 import com.xfour.businesscapitalloan.service.BillService;
 import com.xfour.businesscapitalloan.service.ProvisionService;
@@ -95,6 +96,22 @@ public class SubmissionServiceImpl implements SubmissionService {
         return new PageImpl<>(submissionResponses, pageable, submissions.getTotalElements());
     }
 
+    @Override
+    public List<SubmissionResponse> getAllByDebtorId(String id) {
+        log.info("Start get all submission by debtor id");
+        UmkmResponse umkm = umkmService.getByDebtorId(id);
+
+        List<Submission> allByUmkmId = submissionRepository.findAllByUmkmId(umkm.getUmkmId());
+        List<SubmissionResponse> submissionResponses = new ArrayList<>();
+
+        for (Submission submission : allByUmkmId) {
+            SubmissionResponse submissionResponse = toSubmissionResponse(submission);
+            submissionResponses.add(submissionResponse);
+        }
+        log.info("Finish get all submission by debtor id");
+        return submissionResponses;
+    }
+
     @Transactional(readOnly = true)
     @Override
     public SubmissionResponse getById(String id) {
@@ -123,6 +140,8 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         return toSubmissionResponse(submission);
     }
+
+
 
     private Provision createProvision(String submissionId) {
         Submission submission = findById(submissionId);
