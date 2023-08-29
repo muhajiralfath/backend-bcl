@@ -1,6 +1,7 @@
 package com.xfour.businesscapitalloan.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,9 +41,12 @@ public class Debtor extends BaseEntity {
     private String address;
     @Column(name = "job")
     private String job;
+
+    @JsonManagedReference
     @OneToOne(mappedBy = "debtor", fetch = FetchType.LAZY)
     @JoinColumn(name = "umkm_id")
     private Umkm umkm;
+
     @OneToOne
     @JoinColumn(name = "user_credential_id")
     private UserCredential userCredential;

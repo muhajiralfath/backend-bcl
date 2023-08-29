@@ -22,7 +22,7 @@ public class Payment extends BaseEntity {
     @JoinColumn(name = "umkm_id")
     private Umkm umkm;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "bill_id", unique = true)
     private Bill bill;
 

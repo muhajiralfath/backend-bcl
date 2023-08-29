@@ -1,5 +1,6 @@
 package com.xfour.businesscapitalloan.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,7 @@ public class Submission extends BaseEntity{
     @JoinColumn(name = "umkm_id")
     private Umkm umkm;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "submission", fetch = FetchType.LAZY)
     private Provision provision;
 }
