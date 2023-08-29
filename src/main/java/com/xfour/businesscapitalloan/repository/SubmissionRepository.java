@@ -13,8 +13,5 @@ import java.util.Optional;
 
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, String>, JpaSpecificationExecutor<Submission> {
-
-//    Page<Submission> findAllByUmkmId(String id, Pageable pageable);
-
     List<Submission> findAllByUmkmId(String id);
 }

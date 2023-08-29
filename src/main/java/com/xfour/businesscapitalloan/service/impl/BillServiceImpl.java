@@ -5,8 +5,10 @@ import com.xfour.businesscapitalloan.model.request.SearchBillRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateBillAdminRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateBillUmkmRequest;
 import com.xfour.businesscapitalloan.model.response.BillResponse;
+import com.xfour.businesscapitalloan.model.response.UmkmResponse;
 import com.xfour.businesscapitalloan.repository.BillRepository;
 import com.xfour.businesscapitalloan.service.BillService;
+import com.xfour.businesscapitalloan.service.UmkmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import java.util.List;
 @Slf4j
 public class BillServiceImpl implements BillService {
     private final BillRepository billRepository;
+    private final UmkmService umkmService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -91,6 +94,23 @@ public class BillServiceImpl implements BillService {
         log.info("end of updateForAdmin");
 
         return toBillResponse(bill);
+    }
+
+    @Override
+    public List<BillResponse> getAllBillByDebtorId(String debtorId) {
+        log.info("get all bill by debtor id");
+        UmkmResponse umkm = umkmService.getByDebtorId(debtorId);
+
+        List<Bill> allByUmkmId = billRepository.findAllByUmkmId(umkm.getUmkmId());
+        List<BillResponse> billResponseList = new ArrayList<>();
+
+        for (Bill bill : allByUmkmId) {
+            BillResponse billResponse = toBillResponse(bill);
+            billResponseList.add(billResponse);
+        }
+
+        log.info("finish get all bill by debtor id");
+        return billResponseList;
     }
 
     private BillResponse toBillResponse(Bill bill) {

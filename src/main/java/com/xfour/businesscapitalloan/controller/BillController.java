@@ -8,6 +8,7 @@ import com.xfour.businesscapitalloan.model.response.CommonResponse;
 import com.xfour.businesscapitalloan.model.response.PagingResponse;
 import com.xfour.businesscapitalloan.service.BillService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/bills")
@@ -105,6 +108,23 @@ public class BillController {
                 .data(billResponse)
                 .build();
         log.info("end of update bill for admin");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(commonResponse);
+    }
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Get All Submission by bill id")
+    @GetMapping(
+            path = "/debtor/{id}"
+    )
+    public ResponseEntity<?> getAllBillByDebtorId(@PathVariable String id){
+        log.info("Start get all bill by debtor id");
+        List<BillResponse> billResponseList = billService.getAllBillByDebtorId(id);
+        CommonResponse<?> commonResponse = CommonResponse.builder()
+                .data(billResponseList)
+                .build();
+        log.info("finish get all bii by debtor id");
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(commonResponse);

@@ -7,6 +7,8 @@ import com.xfour.businesscapitalloan.model.request.UpdateBillUmkmRequest;
 import com.xfour.businesscapitalloan.model.response.BillResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface BillService {
     Bill create(Bill bill);
     Bill findById(String id);
@@ -14,4 +16,5 @@ public interface BillService {
     Page<BillResponse> getAll(SearchBillRequest request);
     BillResponse updateForUmkm(UpdateBillUmkmRequest request);
     BillResponse updateForAdmin(UpdateBillAdminRequest request);
+    List<BillResponse> getAllBillByDebtorId(String debtorId);
 }
