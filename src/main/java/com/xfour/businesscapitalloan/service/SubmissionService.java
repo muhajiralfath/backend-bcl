@@ -7,6 +7,8 @@ import com.xfour.businesscapitalloan.model.request.UpdateSubmissionRequest;
 import com.xfour.businesscapitalloan.model.response.SubmissionResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 public interface SubmissionService {
     Submission findById(String id);
@@ -14,4 +16,6 @@ public interface SubmissionService {
     Page<SubmissionResponse> getAll(SearchSubmissionRequest request);
     SubmissionResponse getById(String id);
     SubmissionResponse update(UpdateSubmissionRequest request);
+    List<SubmissionResponse> getAllByDebtorId(String id);
+
 }

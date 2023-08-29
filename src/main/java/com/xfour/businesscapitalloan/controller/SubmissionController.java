@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/api/submissions")
@@ -116,4 +118,25 @@ public class SubmissionController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(commonResponse);
     }
+
+
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary = "Get All Submission by debtor id")
+    @GetMapping(
+            path = "/debtor/{id}"
+    )
+    public ResponseEntity<?> getAllSubmissionByDebtorId(@PathVariable String id){
+        log.info("Start get submission by debtor id");
+        List<SubmissionResponse> allByDebtorId = submissionService.getAllByDebtorId(id);
+        CommonResponse<?> commonResponse = CommonResponse.builder()
+                .data(allByDebtorId)
+                .build();
+        log.info("finish get submission by debtor id");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(commonResponse);
+
+    }
+
+
 }
