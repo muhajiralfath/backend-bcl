@@ -33,12 +33,6 @@ public class SnapServiceImpl implements SnapService {
     @Override
     public SnapResponse createTransaction(SnapRequest requestBody) {
         log.info("start createTransaction");
-//        String requestBody = "";
-//        try {
-//            requestBody = objectMapper.writeValueAsString(request);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set("Accept", "application/json");

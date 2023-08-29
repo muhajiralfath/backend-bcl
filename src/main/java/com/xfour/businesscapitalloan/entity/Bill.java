@@ -41,4 +41,8 @@ public class Bill extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "umkm_id")
     private Umkm umkm;
+
+    @OneToOne(mappedBy = "bill", fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 }

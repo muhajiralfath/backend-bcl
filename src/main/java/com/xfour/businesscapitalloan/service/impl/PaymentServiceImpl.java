@@ -6,9 +6,14 @@ import com.xfour.businesscapitalloan.entity.Umkm;
 import com.xfour.businesscapitalloan.model.request.PaymentRequest;
 import com.xfour.businesscapitalloan.model.request.SearchPaymentRequest;
 import com.xfour.businesscapitalloan.model.response.PaymentResponse;
+import com.xfour.businesscapitalloan.model.response.SnapResponse;
+import com.xfour.businesscapitalloan.model.snap.CustomerDetails;
+import com.xfour.businesscapitalloan.model.snap.SnapRequest;
+import com.xfour.businesscapitalloan.model.snap.TransactionDetails;
 import com.xfour.businesscapitalloan.repository.PaymentRepository;
 import com.xfour.businesscapitalloan.service.BillService;
 import com.xfour.businesscapitalloan.service.PaymentService;
+import com.xfour.businesscapitalloan.service.SnapService;
 import com.xfour.businesscapitalloan.service.UmkmService;
 import com.xfour.businesscapitalloan.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -33,7 +39,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final BillService billService;
     private final ValidationUtil validationUtil;
     private final UmkmService umkmService;
+    private final SnapService snapService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public PaymentResponse create(PaymentRequest request) {
         log.info("start payment transaction");
@@ -41,21 +49,39 @@ public class PaymentServiceImpl implements PaymentService {
 
         Bill bill = billService.findById(request.getBillId());
         Umkm umkm = umkmService.findById(request.getUmkmId());
-        bill.setIsVerify(true);
-        billService.create(bill);
 
         Payment newPayment =  Payment.builder()
-                .paymentDate(LocalDate.now())
                 .umkm(umkm)
                 .bill(bill)
-                .amount(request.getAmount())
+                .amount(bill.getDebt())
                 .build();
-
         paymentRepository.save(newPayment);
+
+        // create snap
+        TransactionDetails transactionDetails = TransactionDetails.builder()
+                .billId(newPayment.getBill().getId())
+                .Amount(newPayment.getAmount())
+                .build();
+        CustomerDetails customerDetails = CustomerDetails.builder()
+                .debtorName(umkm.getDebtor().getName())
+                .umkmName(umkm.getName())
+                .build();
+        SnapRequest snapRequest = SnapRequest.builder()
+                .transactionDetails(transactionDetails)
+                .customerDetails(customerDetails)
+                .build();
+        SnapResponse snapResponse = snapService.createTransaction(snapRequest);
+
+        // set payment
+        newPayment.setSnapUrl(snapResponse.getRedirectUrl());
+        newPayment.setSnapToken(snapResponse.getToken());
+        paymentRepository.save(newPayment);
+
         log.info("finish payment transaction");
         return toPaymentResponse(newPayment);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PaymentResponse getById(String id) {
         log.info("start get payment by id");
@@ -64,6 +90,7 @@ public class PaymentServiceImpl implements PaymentService {
         return toPaymentResponse(payment);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<PaymentResponse> getAll(SearchPaymentRequest request) {
         log.info("start get all payment");
@@ -79,14 +106,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Payment findById(String id) {
+        return paymentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "payment not found"));
+    }
+
     private PaymentResponse toPaymentResponse(Payment payment){
         return PaymentResponse.builder()
                 .paymentId(payment.getId())
-                .paymentDate(payment.getPaymentDate())
                 .umkm(payment.getUmkm())
                 .bill(payment.getBill())
                 .amount(payment.getAmount())
-                .isSuccess(true)
+                .snapUrl(payment.getSnapUrl())
                 .build();
     }
 

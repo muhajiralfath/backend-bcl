@@ -17,9 +17,6 @@ public class PaymentRequest {
     @NotBlank(message = "umkm id is required")
     private String umkmId;
 
-    @NotNull(message = "amount is required")
-    private Long amount;
-
     @NotBlank(message = "bill id is required")
     private String billId;
 

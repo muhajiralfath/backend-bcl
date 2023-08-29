@@ -18,7 +18,6 @@ public class PaymentResponse {
     private String paymentId;
     private Umkm umkm;
     private Bill bill;
-    private LocalDate paymentDate;
     private Long amount;
-    private Boolean isSuccess;
+    private String snapUrl;
 }

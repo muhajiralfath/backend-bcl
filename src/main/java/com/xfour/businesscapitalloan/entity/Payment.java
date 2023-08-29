@@ -18,18 +18,20 @@ import java.time.LocalDate;
 @Table(name = "t_payment")
 public class Payment extends BaseEntity {
 
-    @Column(name = "payment_date")
-    private LocalDate paymentDate;
-
     @ManyToOne
-    @JoinColumn(name = "umkmpay_id")
+    @JoinColumn(name = "umkm_id")
     private Umkm umkm;
 
     @OneToOne
-    @JoinColumn(name = "billpay_id")
+    @JoinColumn(name = "bill_id", unique = true)
     private Bill bill;
 
     @Column(name = "amountpay_id")
     private Long amount;
 
+    @Column(name = "snap_url")
+    private String snapUrl;
+
+    @Column(name = "snap_token")
+    private String snapToken;
 }
