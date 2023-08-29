@@ -2,6 +2,7 @@ package com.xfour.businesscapitalloan.service.impl;
 
 import com.xfour.businesscapitalloan.entity.Debtor;
 import com.xfour.businesscapitalloan.entity.Umkm;
+import com.xfour.businesscapitalloan.entity.UmkmDocument;
 import com.xfour.businesscapitalloan.entity.UserDetailsImpl;
 import com.xfour.businesscapitalloan.model.request.NewUmkmRequest;
 import com.xfour.businesscapitalloan.model.request.SearchUmkmRequest;
@@ -9,11 +10,12 @@ import com.xfour.businesscapitalloan.model.request.UpdateUmkmRequest;
 import com.xfour.businesscapitalloan.model.response.UmkmResponse;
 import com.xfour.businesscapitalloan.repository.UmkmRepository;
 import com.xfour.businesscapitalloan.service.DebtorService;
-import com.xfour.businesscapitalloan.service.RoleService;
+import com.xfour.businesscapitalloan.service.UmkmDocumentService;
 import com.xfour.businesscapitalloan.service.UmkmService;
 import com.xfour.businesscapitalloan.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.criteria.Predicate;
@@ -37,7 +40,7 @@ import java.util.Objects;
 public class UmkmServiceImpl implements UmkmService {
     private final UmkmRepository umkmRepository;
     private final DebtorService debtorService;
-    private final RoleService roleService;
+    private final UmkmDocumentService documentService;
     private final ValidationUtil validationUtil;
 
     @Transactional(rollbackFor = Exception.class)
@@ -147,6 +150,24 @@ public class UmkmServiceImpl implements UmkmService {
 
         log.info("end find umkm by id");
         return umkm;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public UmkmDocument uploadDocument(Authentication authentication, MultipartFile multipartFile) {
+        UmkmResponse umkmResponse = getByAuthentication(authentication);
+        Umkm umkm = umkmRepository.findById(umkmResponse.getUmkmId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "umkm not found"));
+
+        return documentService.create(umkm, multipartFile);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Resource downloadDocument(Authentication authentication) {
+        UmkmResponse umkmResponse = getByAuthentication(authentication);
+        UmkmDocument umkmDocument = documentService.getByUmkmId(umkmResponse.getUmkmId());
+        return documentService.downloadDoc(umkmDocument.getId());
     }
 
     private UmkmResponse toUmkmResponse(Umkm umkm){

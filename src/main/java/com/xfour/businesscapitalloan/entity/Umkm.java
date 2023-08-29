@@ -35,4 +35,7 @@ public class Umkm extends BaseEntity {
     @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "debtor_id", unique = true)
     private Debtor debtor;
+
+    @OneToOne(mappedBy = "umkm", cascade = CascadeType.ALL)
+    private UmkmDocument document;
 }

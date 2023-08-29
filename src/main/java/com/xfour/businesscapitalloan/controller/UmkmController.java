@@ -1,5 +1,6 @@
 package com.xfour.businesscapitalloan.controller;
 
+import com.xfour.businesscapitalloan.entity.UmkmDocument;
 import com.xfour.businesscapitalloan.model.request.NewUmkmRequest;
 import com.xfour.businesscapitalloan.model.request.SearchUmkmRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateUmkmRequest;
@@ -7,17 +8,22 @@ import com.xfour.businesscapitalloan.model.response.CommonResponse;
 import com.xfour.businesscapitalloan.model.response.PagingResponse;
 import com.xfour.businesscapitalloan.model.response.UmkmResponse;
 import com.xfour.businesscapitalloan.service.UmkmService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -133,5 +139,34 @@ public class UmkmController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(commonResponse);
+    }
+
+    @Operation(summary = "Upload UMKM Document")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('DEBTOR')")
+    @PostMapping(path = "/upload-document")
+    public ResponseEntity<?> uploadDocument(
+            Authentication authentication,
+            @RequestPart(name = "document") MultipartFile multipartFile
+    ) {
+        UmkmDocument umkmDocument = umkmService.uploadDocument(authentication, multipartFile);
+        CommonResponse<Object> commonResponse = CommonResponse.builder()
+                .data(umkmDocument)
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(commonResponse);
+    }
+
+    @Operation(summary = "Download UMKM Document")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping(path = "/download-document")
+    public ResponseEntity<?> uploadDocument(Authentication authentication) {
+        Resource resource = umkmService.downloadDocument(authentication);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .contentType(MediaType.valueOf("image/png"))
+                .body(resource);
     }
 }
