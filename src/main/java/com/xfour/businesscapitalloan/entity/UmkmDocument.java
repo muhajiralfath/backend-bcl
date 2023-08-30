@@ -1,5 +1,6 @@
 package com.xfour.businesscapitalloan.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 @Table(name = "m_umkm_document")
 public class UmkmDocument extends File{
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "umkm_id", referencedColumnName = "id")
     private Umkm umkm;
