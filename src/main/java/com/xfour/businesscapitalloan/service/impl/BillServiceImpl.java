@@ -117,6 +117,7 @@ public class BillServiceImpl implements BillService {
         return BillResponse.builder()
                 .id(bill.getId())
                 .provisionId(bill.getProvision().getId())
+                .umkmId(bill.getUmkm().getId())
                 .umkmName(bill.getUmkm().getName())
                 .debtorName(bill.getUmkm().getDebtor().getName())
                 .debt(bill.getDebt())

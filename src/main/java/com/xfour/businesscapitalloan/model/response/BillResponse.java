@@ -16,6 +16,7 @@ public class BillResponse {
 
     private String id;
     private String provisionId;
+    private String umkmId;
     private String umkmName;
     private String debtorName;
     private Long debt;
