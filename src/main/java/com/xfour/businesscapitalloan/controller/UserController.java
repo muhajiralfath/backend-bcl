@@ -14,8 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api/users")
@@ -50,7 +53,8 @@ public class UserController {
                 .build();
         log.info("end updateProfilePicture");
 
-        return ResponseEntity.ok(commonResponse);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(commonResponse);
     }
 
     @Operation(summary = "Download Profile Picture")
@@ -58,12 +62,13 @@ public class UserController {
     public ResponseEntity<?> downloadProfilePicture(@PathVariable(name = "imageId") String imageId) {
         log.info("start downloadProfilePicture");
         Resource resource = userService.downloadProfilePicture(imageId);
+        String contentType = determineContentType(Objects.requireNonNull(resource.getFilename()));
         log.info("end downloadProfilePicture");
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .contentType(MediaType.valueOf("image/png"))
+                .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
     }
 
@@ -79,5 +84,22 @@ public class UserController {
         log.info("end deleteProfilePicture");
 
         return ResponseEntity.ok(commonResponse);
+    }
+
+    private String determineContentType(String filename) {
+        String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+
+        switch (extension) {
+            case "png":
+                return MimeTypeUtils.IMAGE_PNG_VALUE;
+            case "jpg":
+            case "jpeg":
+                return MimeTypeUtils.IMAGE_JPEG_VALUE;
+            case "gif":
+                return MimeTypeUtils.IMAGE_GIF_VALUE;
+            // Add more cases for other image formats if needed
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM_VALUE; // Default to binary data
+        }
     }
 }
