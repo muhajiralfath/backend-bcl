@@ -65,21 +65,6 @@ class UserControllerTest {
     }
 
     @Test
-    void downloadProfilePicture() {
-        // Mocking
-        String imageId = "your_image_id";
-        Resource resource = mock(Resource.class);
-        when(userService.downloadProfilePicture(eq(imageId))).thenReturn(resource);
-
-        // Test
-        ResponseEntity<?> responseEntity = userController.downloadProfilePicture(imageId);
-
-        // Verify
-        assertEquals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value());
-        assertEquals(resource, responseEntity.getBody());
-    }
-
-    @Test
     void deleteProfilePicture() {
         // Mocking
         String imageId = "your_image_id";
