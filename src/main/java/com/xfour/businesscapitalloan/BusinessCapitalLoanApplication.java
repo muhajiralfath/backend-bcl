@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling
 @OpenAPIDefinition(info = @Info(title = "Business API", version = "v1"))
 @SecurityScheme(
 		name = "Bearer Authentication",

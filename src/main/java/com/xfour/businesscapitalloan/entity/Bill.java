@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -27,6 +28,9 @@ public class Bill extends BaseEntity {
 
     @Column(name = "due_date")
     private LocalDate dueDate;
+
+    @Column(name = "fine_date")
+    private Long fineDate;
 
     @Column(name = "is_paid")
     private Boolean isPaid;

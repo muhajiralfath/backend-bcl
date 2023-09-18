@@ -35,7 +35,7 @@ public class AppAutoInit implements CommandLineRunner {
                     .email(email)
                     .password(password)
                     .build());
-        log.info("First Admin was created.");
+        log.info("First Admin was created. login with email : admin@email.com | pass : passwordadmin");
         } else {
             log.info("Admin already create, login with email : admin@email.com | pass : passwordadmin");
         }

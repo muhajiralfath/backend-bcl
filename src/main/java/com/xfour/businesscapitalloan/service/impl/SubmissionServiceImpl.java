@@ -28,6 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.criteria.Predicate;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -158,10 +162,16 @@ public class SubmissionServiceImpl implements SubmissionService {
             debt = (provision.getSubmission().getLoanAmount() + (provision.getSubmission().getLoanAmount() * 5/100)) / provision.getSubmission().getTenor();
 
             for (int i = 0; i < provision.getSubmission().getTenor(); i++) {
+                LocalDate dueDate = provision.getCreatedAt().plusMonths(i + 1).toLocalDate();
+                Instant instant = dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                long dueDateEpochTime = instant.toEpochMilli();
+                long fineDate = dueDateEpochTime + 86400 * 1000;
+
                 Bill bill = Bill.builder()
                         .debt(debt)
                         .interest(5)
-                        .dueDate(provision.getCreatedAt().plusMonths(i+1).toLocalDate())
+                        .dueDate(dueDate)
+                        .fineDate(fineDate)
                         .isPaid(false)
                         .isVerify(false)
                         .provision(provision)
@@ -175,10 +185,15 @@ public class SubmissionServiceImpl implements SubmissionService {
             debt = (provision.getSubmission().getLoanAmount() + (provision.getSubmission().getLoanAmount() * 8/100)) / provision.getSubmission().getTenor();
 
             for (int i = 0; i < provision.getSubmission().getTenor(); i++) {
+                LocalDate dueDate = provision.getCreatedAt().plusMonths(i + 1).toLocalDate();
+                Instant instant = dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                long dueDateEpochTime = instant.toEpochMilli();
+                long fineDate = dueDateEpochTime + 86400 * 1000;
                 Bill bill = Bill.builder()
                         .debt(debt)
                         .interest(8)
-                        .dueDate(provision.getCreatedAt().plusMonths(i+1).toLocalDate())
+                        .dueDate(dueDate)
+                        .fineDate(fineDate)
                         .isPaid(false)
                         .isVerify(false)
                         .provision(provision)
@@ -192,10 +207,15 @@ public class SubmissionServiceImpl implements SubmissionService {
             debt = (provision.getSubmission().getLoanAmount() + (provision.getSubmission().getLoanAmount() * 12/100)) / provision.getSubmission().getTenor();
 
             for (int i = 0; i < provision.getSubmission().getTenor(); i++) {
+                LocalDate dueDate = provision.getCreatedAt().plusMonths(i + 1).toLocalDate();
+                Instant instant = dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                long dueDateEpochTime = instant.toEpochMilli();
+                long fineDate = dueDateEpochTime + 86400 * 1000;
                 Bill bill = Bill.builder()
                         .debt(debt)
                         .interest(12)
-                        .dueDate(provision.getCreatedAt().plusMonths(i+1).toLocalDate())
+                        .dueDate(dueDate)
+                        .fineDate(fineDate)
                         .isPaid(false)
                         .isVerify(false)
                         .provision(provision)
@@ -237,4 +257,6 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .isApprove(submission.getIsApprove())
                 .build();
     }
+
+
 }

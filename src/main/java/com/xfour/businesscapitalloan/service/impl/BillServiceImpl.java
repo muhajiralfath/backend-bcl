@@ -16,10 +16,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,4 +129,15 @@ public class BillServiceImpl implements BillService {
                 .isVerify(bill.getIsVerify())
                 .build();
     }
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void startFineDate(){
+        List<Bill> fineDateList = billRepository.findAllByIsPaidFalseAndFineDateLessThan(System.currentTimeMillis());
+        fineDateList.forEach((bill) -> {
+            Long newDebt  = bill.getDebt() + (bill.getDebt() / 100);
+            bill.setDebt(newDebt);
+            billRepository.save(bill);
+        });
+    }
+
 }
+
