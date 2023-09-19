@@ -58,6 +58,15 @@ public class SubmissionServiceImpl implements SubmissionService {
         log.info("start of create submission");
         validationUtil.validate(request);
         Umkm umkm = umkmService.findById(request.getUmkmId());
+        if (umkm.getUmkmType().equals("mikro") && (request.getLoanAmount() < 1_000_000 || request.getLoanAmount() > 3_000_000)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loan amount not valid, type mikro must be 1.000.000 - 3.000.000");
+        }
+        if (umkm.getUmkmType().equals("kecil") && (request.getLoanAmount() < 5_000_000 || request.getLoanAmount() > 20_000_000)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loan amount not valid, type kecil must be 5.000.000 - 20.000.000");
+        }
+        if (umkm.getUmkmType().equals("menengah") && (request.getLoanAmount() < 10_000_000 || request.getLoanAmount() > 50_000_000)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Loan amount not valid, type menengah must be 10.000.000 - 50.000.000");
+        }
 
         Submission submission = Submission.builder()
                 .tenor(request.getTenor())
