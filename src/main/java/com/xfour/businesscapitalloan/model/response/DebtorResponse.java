@@ -26,4 +26,5 @@ public class DebtorResponse {
     private String address;
     private String job;
     private String email;
+    private String imageId;
 }

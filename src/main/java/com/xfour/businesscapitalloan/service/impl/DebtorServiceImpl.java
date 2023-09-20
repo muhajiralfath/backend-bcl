@@ -1,6 +1,7 @@
 package com.xfour.businesscapitalloan.service.impl;
 
 import com.xfour.businesscapitalloan.entity.Debtor;
+import com.xfour.businesscapitalloan.entity.ProfilePicture;
 import com.xfour.businesscapitalloan.entity.UserDetailsImpl;
 import com.xfour.businesscapitalloan.model.request.SearchDebtorRequest;
 import com.xfour.businesscapitalloan.model.request.UpdateDebtorRequest;
@@ -109,6 +110,13 @@ public class DebtorServiceImpl implements DebtorService {
     }
 
     private DebtorResponse toDebtorResponse(Debtor debtor){
+        String imageId = null;
+
+        ProfilePicture profilePicture = debtor.getUserCredential().getProfilePicture();
+        if (profilePicture != null) {
+            imageId = profilePicture.getId();
+        }
+
         return DebtorResponse.builder()
                 .debtorId(debtor.getId())
                 .nik(debtor.getNik())
@@ -122,6 +130,7 @@ public class DebtorServiceImpl implements DebtorService {
                 .address(debtor.getAddress())
                 .job(debtor.getJob())
                 .email(debtor.getUserCredential().getEmail())
+                .imageId(imageId)
                 .build();
     }
 }
