@@ -176,7 +176,6 @@ public class UmkmController {
     @Operation(summary = "Download UMKM Document By Id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(path = "/download-umkm-document/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> downloadDocumentById(@PathVariable String id) {
         Resource resource = umkmService.downloadDocumentById(id);
         String contentType = determineContentType(Objects.requireNonNull(resource.getFilename()));
