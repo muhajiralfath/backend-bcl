@@ -21,4 +21,5 @@ public interface UmkmService {
     UmkmResponse update(UpdateUmkmRequest request);
     UmkmDocument uploadDocument(Authentication authentication, MultipartFile multipartFile);
     Resource downloadDocument(Authentication authentication);
+    Resource downloadDocumentById(String id);
 }

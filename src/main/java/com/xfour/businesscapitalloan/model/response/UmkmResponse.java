@@ -17,4 +17,5 @@ public class UmkmResponse {
     private Long capital;
     private String umkmType;
     private String bankAccount;
+    private String documentId;
 }

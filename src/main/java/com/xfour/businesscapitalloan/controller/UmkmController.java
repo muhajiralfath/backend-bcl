@@ -22,8 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -160,13 +163,43 @@ public class UmkmController {
     @Operation(summary = "Download UMKM Document")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(path = "/download-document")
-    public ResponseEntity<?> uploadDocument(Authentication authentication) {
+    public ResponseEntity<?> downloadDocument(Authentication authentication) {
         Resource resource = umkmService.downloadDocument(authentication);
-
+        String contentType = determineContentType(Objects.requireNonNull(resource.getFilename()));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .contentType(MediaType.valueOf("image/png"))
+                .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
+    }
+
+    @Operation(summary = "Download UMKM Document By Id")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping(path = "/download-umkm-document/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> downloadDocumentById(@PathVariable String id) {
+        Resource resource = umkmService.downloadDocumentById(id);
+        String contentType = determineContentType(Objects.requireNonNull(resource.getFilename()));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
+    }
+
+    private String determineContentType(String filename) {
+        String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+
+        switch (extension) {
+            case "png":
+                return MimeTypeUtils.IMAGE_PNG_VALUE;
+            case "jpg":
+            case "jpeg":
+                return MimeTypeUtils.IMAGE_JPEG_VALUE;
+            case "pdf":
+                return MediaType.APPLICATION_PDF_VALUE;
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
     }
 }

@@ -95,11 +95,8 @@ public class UserController {
             case "jpg":
             case "jpeg":
                 return MimeTypeUtils.IMAGE_JPEG_VALUE;
-            case "gif":
-                return MimeTypeUtils.IMAGE_GIF_VALUE;
-            // Add more cases for other image formats if needed
             default:
-                return MediaType.APPLICATION_OCTET_STREAM_VALUE; // Default to binary data
+                return MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
     }
 }

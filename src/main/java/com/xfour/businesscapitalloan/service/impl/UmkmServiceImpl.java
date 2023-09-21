@@ -170,7 +170,20 @@ public class UmkmServiceImpl implements UmkmService {
         return documentService.downloadDoc(umkmDocument.getId());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Resource downloadDocumentById(String id) {
+        return documentService.downloadDoc(id);
+    }
+
     private UmkmResponse toUmkmResponse(Umkm umkm){
+        String documentId = null;
+
+        UmkmDocument document = umkm.getDocument();
+        if (document != null) {
+            documentId = document.getId();
+        }
+
         return UmkmResponse.builder()
                 .umkmId(umkm.getId())
                 .noSiup(umkm.getNoSiup())
@@ -179,6 +192,7 @@ public class UmkmServiceImpl implements UmkmService {
                 .capital(umkm.getCapital())
                 .umkmType(umkm.getUmkmType())
                 .bankAccount(umkm.getBankAccount())
+                .documentId(documentId)
                 .build();
     }
 
