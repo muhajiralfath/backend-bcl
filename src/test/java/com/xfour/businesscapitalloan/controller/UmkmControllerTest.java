@@ -91,7 +91,7 @@ class UmkmControllerTest {
         when(umkmService.downloadDocument(eq(authentication))).thenReturn(resource);
 
         // Test
-        ResponseEntity<?> responseEntity = umkmController.uploadDocument(authentication);
+        ResponseEntity<?> responseEntity = umkmController.downloadDocument(authentication);
 
         // Verify
         assertEquals(responseEntity.getStatusCodeValue(), HttpStatus.OK.value());

@@ -8,6 +8,7 @@ class BusinessCapitalLoanApplicationTests {
 
 	@Test
 	void contextLoads() {
+		BusinessCapitalLoanApplication.main(new String[] {});
 	}
 
 }
