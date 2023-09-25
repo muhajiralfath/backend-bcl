@@ -147,7 +147,7 @@ public class UmkmController {
     @Operation(summary = "Upload UMKM Document")
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('DEBTOR')")
-    @PostMapping(path = "/upload-document")
+    @PutMapping(path = "/upload-document")
     public ResponseEntity<?> uploadDocument(
             Authentication authentication,
             @RequestPart(name = "document") MultipartFile multipartFile
